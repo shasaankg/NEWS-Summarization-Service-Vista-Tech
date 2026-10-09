@@ -49,7 +49,7 @@ class Summarizer:
         self.dtype = torch.float16 if device == "cuda" else torch.float32
         self.tokenizer = AutoTokenizer.from_pretrained(model_dir, local_files_only=True)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(
-            model_dir, local_files_only=True, torch_dtype=self.dtype,
+            model_dir, local_files_only=True, dtype=self.dtype,
             attn_implementation="eager",
         ).to(device).eval()
         self.input_limit = min(MAX_INPUT_TOKENS, self.model.config.max_position_embeddings)

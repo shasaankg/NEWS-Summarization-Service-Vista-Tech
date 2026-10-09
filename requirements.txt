@@ -3,6 +3,7 @@ torch==2.11.0
 transformers==4.57.6
 datasets==4.8.5
 huggingface-hub==0.36.2
+requests==2.34.2
 rouge-score==0.1.2
 fastapi==0.143.0
 uvicorn==0.54.0

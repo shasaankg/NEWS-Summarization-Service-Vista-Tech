@@ -1,0 +1,12 @@
+{
+  "model_id": "sshleifer/distilbart-cnn-12-6",
+  "revision": "a4f8f3ea906ed274767e9906dbaede7531d660ff",
+  "files_sha256": {
+    "config.json": "028d72a28b90a369eff3f99ceb585fbd2ababf070e8577d72c315757a49b8917",
+    "tokenizer_config.json": "5e04eb606e3a1583530a42e36c2a6b6615c86f34fe77e44d9ddeb43ff940931f",
+    "vocab.json": "06b4d46c8e752d410213d9548eb27a54db70fda0319b6271fb8d59dead5e1cab",
+    "merges.txt": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5",
+    "pytorch_model.bin": "3bac65d18c99463302d12ca75c2220ea714f9c81ce235f205fa818efe71df6ea"
+  },
+  "training_in_this_project": false
+}

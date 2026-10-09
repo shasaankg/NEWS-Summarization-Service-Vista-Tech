@@ -5,8 +5,9 @@ import json
 from pathlib import Path
 
 from datasets import load_dataset
-from huggingface_hub import HfApi, hf_hub_download
+from huggingface_hub import HfApi, hf_hub_download, hf_hub_url
 import numpy as np
+import requests
 
 from .config import (
     DATA_DIR, DATASET_CONFIG, DATASET_ID, EVALUATION_SIZE,
@@ -27,6 +28,30 @@ def write_json(path: Path, value) -> None:
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def download_weights(revision: str, expected_sha256: str) -> Path:
+    """Stream the public checkpoint with bounded timeouts and verify its LFS hash."""
+    destination = MODEL_DIR / "pytorch_model.bin"
+    if destination.exists() and sha256(destination) == expected_sha256:
+        return destination
+    temporary = destination.with_suffix(".download")
+    url = hf_hub_url(MODEL_ID, "pytorch_model.bin", revision=revision)
+    with requests.get(url, stream=True, timeout=(15, 30)) as response:
+        response.raise_for_status()
+        total = 0
+        next_log = 50 * 1024**2
+        with temporary.open("wb") as stream:
+            for chunk in response.iter_content(chunk_size=1024 * 1024):
+                stream.write(chunk)
+                total += len(chunk)
+                if total >= next_log:
+                    print(f"Model download: {total / 1024**2:.0f} MiB", flush=True)
+                    next_log += 50 * 1024**2
+    if sha256(temporary) != expected_sha256:
+        raise ValueError("Downloaded model checksum differs from pinned upstream LFS metadata.")
+    temporary.replace(destination)
+    return destination
+
+
 def prepare() -> None:
     api = HfApi()
     model_manifest_path = ROOT / "models" / "model_manifest.json"
@@ -35,10 +60,16 @@ def prepare() -> None:
         if model_manifest_path.exists() else api.model_info(MODEL_ID).sha
     )
     files = ["config.json", "tokenizer_config.json", "vocab.json", "merges.txt", "pytorch_model.bin"]
+    upstream = api.model_info(MODEL_ID, revision=model_revision, files_metadata=True)
+    weight_metadata = next(item for item in upstream.siblings if item.rfilename == "pytorch_model.bin")
     model_hashes = {}
     for name in files:
         print(f"Preparing model file: {name}", flush=True)
-        path = Path(hf_hub_download(MODEL_ID, name, revision=model_revision, local_dir=MODEL_DIR))
+        path = (
+            download_weights(model_revision, weight_metadata.lfs.sha256)
+            if name == "pytorch_model.bin" else
+            Path(hf_hub_download(MODEL_ID, name, revision=model_revision, local_dir=MODEL_DIR))
+        )
         model_hashes[name] = sha256(path)
     write_json(model_manifest_path, {
         "model_id": MODEL_ID, "revision": model_revision,
