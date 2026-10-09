@@ -1,0 +1,8 @@
+name: news-summarization
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+# Install the CUDA/CPU PyTorch wheel, then requirements.txt and this package.
+# See README.md for Windows PowerShell commands.
