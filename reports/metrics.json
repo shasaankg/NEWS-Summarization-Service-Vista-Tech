@@ -1,0 +1,85 @@
+{
+  "completed_at_utc": "2026-10-09T06:41:03.777152+00:00",
+  "sample_size": 500,
+  "population_size": 11490,
+  "seed": 42,
+  "run_config": {
+    "model": "sshleifer/distilbart-cnn-12-6",
+    "model_revision": "a4f8f3ea906ed274767e9906dbaede7531d660ff",
+    "dataset_revision": "96df5e686bee6baa90b8bee7c28b81fa3fa6223d",
+    "subset_sha256": "4c13632a551d2d537a3b25e28af6e825456a207fbf33a9052e55210b73b4afc9",
+    "generation": {
+      "num_beams": 4,
+      "length_penalty": 2.0,
+      "no_repeat_ngram_size": 3,
+      "early_stopping": true,
+      "do_sample": false,
+      "min_new_tokens": 30,
+      "max_new_tokens": 128
+    },
+    "input_token_limit": 1024,
+    "device": "cuda",
+    "dtype": "torch.float16",
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.6",
+    "implementation_sha256": {
+      "config.py": "65deea89ecc23269e2064b688572432b17bedd0fdca39512a5e441dd33280343",
+      "preprocessing.py": "e78919e0df819beed2f9d854b29b53fb32643ac54749c6b5aea19b14194b6fff",
+      "summarizer.py": "52e0c58588c463ed7cb7c3cf6ccc82040dddc6f85138f96a619cbe57cf97b4da",
+      "evaluate.py": "0753e74469a4d50e103701cf21c011b64f5b0e3e9f7f1f274060b3957527ecfa"
+    },
+    "rouge": {
+      "use_stemmer": true,
+      "aggregation": "mean per-article F1",
+      "scale": "0-100"
+    }
+  },
+  "run_fingerprint": "96f24ef0c3158eb28d6613f5c50b99fefdc3f2c7fc01fa2b33b6cf8d70d225af",
+  "scores": {
+    "rouge1": {
+      "mean_f1": 44.6571,
+      "bootstrap_95_ci": [
+        43.6595,
+        45.6742
+      ]
+    },
+    "rouge2": {
+      "mean_f1": 21.0311,
+      "bootstrap_95_ci": [
+        20.013,
+        22.1333
+      ]
+    },
+    "rougeL": {
+      "mean_f1": 30.8824,
+      "bootstrap_95_ci": [
+        29.9063,
+        31.9666
+      ]
+    }
+  },
+  "bootstrap": {
+    "resamples": 2000,
+    "seed": 42,
+    "unit": "article"
+  },
+  "latency_seconds": {
+    "mean": 0.8592,
+    "median": 0.8105,
+    "p95": 1.3372,
+    "total_inference": 429.6231,
+    "latest_run_wall_time_excluding_load_and_warmup": 430.9556
+  },
+  "truncated_articles": 142,
+  "input_tokens": {
+    "mean": 847.53,
+    "max": 2321
+  },
+  "hardware": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.17",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "cuda_runtime": "12.8",
+    "peak_gpu_allocated_mb": 717.55
+  }
+}

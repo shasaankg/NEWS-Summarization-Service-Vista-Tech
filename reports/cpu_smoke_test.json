@@ -1,0 +1,10 @@
+{
+  "summary": "The building includes reading rooms, computers, and a children's section . Officials said the library will open six days a week and offer classes beginning next month .",
+  "model": "sshleifer/distilbart-cnn-12-6",
+  "device": "cpu",
+  "input_tokens": 51,
+  "used_input_tokens": 51,
+  "truncated": false,
+  "output_tokens": 31,
+  "elapsed_seconds": 0.9243
+}
